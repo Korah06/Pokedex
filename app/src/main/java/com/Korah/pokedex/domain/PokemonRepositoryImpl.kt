@@ -7,13 +7,11 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
 
-class PokemonRepositoryImpl(private val PokemonService: PokemonService) : PokemonRepository {
+class PokemonRepositoryImpl(private val pokemonService: PokemonService) : PokemonRepository {
     override suspend fun getPokemonList(): Flow<Result<PokemonDTO>> {
         return flow {
             val pokemonsFromApi = try {
-
-                PokemonService.getPokemonList()
-
+                pokemonService.getPokemonList()
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Result.Error("Network Error"))

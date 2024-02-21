@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import com.Korah.pokedex.data.models.Pokemon
 import com.Korah.pokedex.ui.ViewModels.PokemonViewModel
 import com.Korah.pokedex.ui.theme.PokedexTheme
 import kotlinx.coroutines.flow.collectLatest
@@ -32,8 +33,9 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val pokemonsList = viewModel.pokemons.collectAsState().value
+                    val pokemonsList: List<Pokemon> = viewModel.pokemons.collectAsState().value
                     val context = LocalContext.current
+                    var currentPagination = 20;
                     
                     LaunchedEffect(key1 = viewModel.showErrorToastChannel){
                         viewModel.showErrorToastChannel.collectLatest{show ->
@@ -43,12 +45,13 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    if (pokemonsList.results == null){
+                    if (pokemonsList.size<currentPagination){
                         CircularProgressIndicator()
                     }else{
+                        currentPagination += 20
                         LazyColumn{
-                            items(pokemonsList.results.size){
-                                Text(text = pokemonsList.results[it].name)
+                            items(pokemonsList.size){
+                                Text(text = pokemonsList[it].name)
                             }
                         }
                     }

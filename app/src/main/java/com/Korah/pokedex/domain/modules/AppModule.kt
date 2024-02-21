@@ -1,8 +1,8 @@
 package com.Korah.pokedex.domain.modules
 
-import com.Korah.pokedex.domain.PokemonRepository
-import com.Korah.pokedex.domain.PokemonRepositoryImpl
-import com.Korah.pokedex.domain.PokemonService
+import com.Korah.pokedex.domain.implementations.PokemonRepositoryImpl
+import com.Korah.pokedex.domain.repositories.PokemonRepository
+import com.Korah.pokedex.domain.services.PokemonService
 import com.Korah.pokedex.ui.ViewModels.PokemonViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

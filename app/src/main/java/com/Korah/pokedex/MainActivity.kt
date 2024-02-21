@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
                             Text(
                                 text = "Buscando Pokemon en la Hierba Alta...",
                                 modifier = Modifier.padding(16.dp),
-                                fontSize = 20.sp
+                                fontSize = 15.sp
                             )
                         }
                     } else {

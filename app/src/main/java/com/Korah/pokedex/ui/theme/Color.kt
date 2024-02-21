@@ -16,3 +16,10 @@ val pokeBackgroundAccent = Color(0xFF332359)
 val pokeBlue = Color(0xFF00aeca)
 val pokeYellow = Color(0xFFeee45c)
 val pokeRed = Color(0xFF9e184b)
+
+
+val background = Color(0xFF003049)
+val primary = Color(0xFFc1121f)
+val secondary = Color(0xFF780000)
+val tertiary = Color(0xFFfdf0d5)
+val accent = Color(0xFF669bbc)

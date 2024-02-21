@@ -37,16 +37,26 @@ private val LightColorScheme = lightColorScheme(
 )
 
 private val PokeColorScheme = darkColorScheme(
-    primary = pokeBackground,
-    secondary = pokeBackgroundAccent,
-    tertiary = pokeYellow,
-    background = pokeRed,
-    surface = pokeBlue,
-    onPrimary = pokeYellow,
-    onSecondary = pokeYellow,
-    onTertiary = pokeBackground,
-    onBackground = pokeYellow,
-    onSurface = pokeYellow,
+//    primary = pokeBackground,
+//    secondary = pokeBackgroundAccent,
+//    tertiary = pokeYellow,
+//    background = pokeRed,
+//    surface = pokeBlue,
+//    onPrimary = pokeYellow,
+//    onSecondary = pokeYellow,
+//    onTertiary = pokeBackground,
+//    onBackground = pokeYellow,
+//    onSurface = pokeYellow,
+    primary = primary,
+    secondary = secondary,
+    tertiary = tertiary,
+    background = background,
+    surface = accent,
+    onPrimary = tertiary,
+    onSecondary = tertiary,
+    onTertiary = primary,
+    onBackground = accent,
+    onSurface = tertiary,
 )
 
 @Composable

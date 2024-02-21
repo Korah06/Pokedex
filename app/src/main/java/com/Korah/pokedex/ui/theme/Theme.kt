@@ -1,7 +1,6 @@
 package com.Korah.pokedex.ui.theme
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -37,6 +36,19 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+private val PokeColorScheme = darkColorScheme(
+    primary = pokeBackground,
+    secondary = pokeBackgroundAccent,
+    tertiary = pokeYellow,
+    background = pokeRed,
+    surface = pokeBlue,
+    onPrimary = pokeYellow,
+    onSecondary = pokeYellow,
+    onTertiary = pokeBackground,
+    onBackground = pokeYellow,
+    onSurface = pokeYellow,
+)
+
 @Composable
 fun PokedexTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -45,12 +57,12 @@ fun PokedexTheme(
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+        dynamicColor -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        darkTheme -> DarkColorScheme
+        darkTheme -> PokeColorScheme
         else -> LightColorScheme
     }
     val view = LocalView.current

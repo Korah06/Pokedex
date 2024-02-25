@@ -33,7 +33,7 @@ fun PokeballCard(pokemon: Pokemon) {
         model = pokemon.sprites.front_default,
         contentDescription = pokemon.name,
         modifier = Modifier
-            .padding(10.dp)
+            .padding(20.dp)
             .size(150.dp)
             .drawBehind {
                 val radius = size.width / 2 // O canvasHeight / 2 si es vertical

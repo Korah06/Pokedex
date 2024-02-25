@@ -5,15 +5,11 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -28,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import com.Korah.pokedex.data.models.Pokemon
 import com.Korah.pokedex.ui.ViewModels.PokemonViewModel
 import com.Korah.pokedex.ui.theme.PokedexTheme
+import com.Korah.pokedex.ui.widgets.PokeballCard
 import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 
@@ -46,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val pokemonsList: List<Pokemon> = viewModel.pokemons.collectAsState().value
                     val context = LocalContext.current
-                    var currentPagination = 20;
+                    var currentPagination = 20
 
                     LaunchedEffect(key1 = viewModel.showErrorToastChannel) {
                         viewModel.showErrorToastChannel.collectLatest { show ->
@@ -77,17 +74,7 @@ class MainActivity : ComponentActivity() {
                         currentPagination += 20
                         LazyColumn {
                             items(pokemonsList.size) {
-                                Text(text = pokemonsList[it].name)
-                            }
-                        }
-                        Box(){
-                            Button(
-                                onClick = { /*TODO*/ },
-                                modifier = Modifier
-                                    .width(300.dp)
-                                    .height(200.dp)
-                            ) {
-                                Text(text = "Cargar más Pokemons")
+                                PokeballCard(pokemon = pokemonsList[it])
                             }
                         }
 

@@ -1,5 +1,11 @@
 package com.Korah.pokedex.ui.widgets
 
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -8,14 +14,27 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.Korah.pokedex.data.models.Pokemon
 import com.Korah.pokedex.data.models.Type
+import com.Korah.pokedex.data.statics.Routes
 import com.Korah.pokedex.ui.theme.background
 
 @Composable
-fun PokeballCard(pokemon: Pokemon) {
+fun PokeballCard(pokemon: Pokemon, navController: NavHostController, isDetail: Boolean = false) {
+
+    val infiniteTransition = rememberInfiniteTransition(label = "pokeball")
+    val rotationAnimation = infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 360f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(5000, easing = LinearEasing),
+        ), label = "pokeball"
+    )
+
 
     val colors = pokeballColors(pokemon)
     val upColor: Color
@@ -29,15 +48,49 @@ fun PokeballCard(pokemon: Pokemon) {
         downColor = colors[1]
     }
 
-    AsyncImage(
-        model = pokemon.sprites.front_default,
-        contentDescription = pokemon.name,
-        modifier = Modifier
-            .padding(20.dp)
-            .size(150.dp)
-            .drawBehind {
-                val radius = size.width / 2 // O canvasHeight / 2 si es vertical
+    val modifier = if (!isDetail) Modifier
+        .padding(20.dp)
+        .size(150.dp)
+        .clickable {
+            navController.navigate(Routes.Detail.route + "/" + pokemon.id)
+        }
+        .drawBehind {
+            val radius = size.width / 2
+            drawArc(
+                color = upColor,
+                startAngle = 180f,
+                sweepAngle = 180f,
+                useCenter = false,
+                topLeft = Offset(center.x - radius, center.y - radius),
+                size = Size(radius * 2, radius * 2),
+            )
+            drawArc(
+                color = downColor,
+                startAngle = 0f,
+                sweepAngle = 180f,
+                useCenter = false,
+                topLeft = Offset(center.x - radius, center.y - radius),
+                size = Size(radius * 2, radius * 2),
+            )
+            drawCircle(
+                color = background, center = center, radius = radius / 3
+            )
+            val thinnerHeight = radius / 8.0f
+            val topLeftY =
+                center.y - thinnerHeight / 2
+            drawRect(
+                color = background,
+                topLeft = Offset(center.x - radius, topLeftY),
+                size = Size(radius * 2, thinnerHeight)
+            )
+        }
+    else Modifier
+        .padding(20.dp)
+        .size(250.dp)
+        .drawBehind {
+            val radius = size.width / 2
 
+            rotate(rotationAnimation.value) {
                 drawArc(
                     color = upColor,
                     startAngle = 180f,
@@ -55,22 +108,27 @@ fun PokeballCard(pokemon: Pokemon) {
                     size = Size(radius * 2, radius * 2),
                 )
                 drawCircle(
-                    color = background,
-                    center = center,
-                    radius = radius / 3
+                    color = background, center = center, radius = radius / 3
                 )
-                val thinnerHeight = radius / 8.0f // Valor para hacer el rectángulo más delgado
+                val thinnerHeight = radius / 8.0f
                 val topLeftY =
-                    center.y - thinnerHeight / 2 // Ajuste de la posición vertical para mantener el centro
+                    center.y - thinnerHeight / 2
                 drawRect(
                     color = background,
                     topLeft = Offset(center.x - radius, topLeftY),
                     size = Size(radius * 2, thinnerHeight)
                 )
             }
+        }
+
+    AsyncImage(
+        model = pokemon.sprites.front_default,
+        contentDescription = pokemon.name,
+        modifier = modifier,
     )
 
 }
+
 
 fun pokeballColors(pokemon: Pokemon): List<Color> {
     val colors = mutableListOf<Color>()

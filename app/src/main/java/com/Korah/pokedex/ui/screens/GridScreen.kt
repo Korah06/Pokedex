@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.Korah.pokedex.data.models.Pokemon
 import com.Korah.pokedex.ui.ViewModels.PokemonViewModel
 import com.Korah.pokedex.ui.widgets.PokeballCard
@@ -25,7 +26,7 @@ import kotlinx.coroutines.flow.collectLatest
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun GridScreen() {
+fun GridScreen(navController: NavHostController) {
     val viewModel = getViewModel<PokemonViewModel>()
 
     val pokemonsList: List<Pokemon> = viewModel.pokemons.collectAsState().value
@@ -59,10 +60,9 @@ fun GridScreen() {
         }
     } else {
         currentPagination += 20
-
         LazyVerticalGrid(columns = GridCells.Fixed(2), content = {
             items(pokemonsList.size) {
-                PokeballCard(pokemon = pokemonsList[it])
+                PokeballCard(pokemon = pokemonsList[it], navController)
             }
         })
     }

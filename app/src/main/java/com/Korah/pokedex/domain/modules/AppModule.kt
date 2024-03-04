@@ -16,11 +16,12 @@ val appModule = module {
         ).build().create(PokemonService::class.java)
     }
 
+
     single<PokemonRepository> {
         PokemonRepositoryImpl(get())
     }
 
-    viewModel{
+    viewModel {
         PokemonViewModel(get())
     }
 }
